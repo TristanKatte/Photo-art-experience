@@ -31,10 +31,12 @@
 ### Task 1: `tokens.css` — token system, reset, and layout wiring
 
 **Files:**
+
 - Create: `src/lib/styles/tokens.css`
 - Modify: `src/routes/+layout.svelte`
 
 **Interfaces:**
+
 - Produces: CSS custom properties (`--color-bg`, `--color-text`, `--color-border`, `--color-surface-inverted`, `--color-text-inverted`, `--color-accent`, `--color-accent-hover`, `--font-heading`, `--font-heading-weight`, `--font-body`, `--font-body-weight`) available globally on `:root` from this point on. Task 3 and Task 4 reference these exact custom property names.
 
 - [ ] **Step 1: Write `tokens.css`**
@@ -113,6 +115,7 @@ Read the current `src/routes/+layout.svelte` first. Replace its contents with:
 Run: `npm run dev`, open `http://localhost:5173/`.
 
 Check:
+
 - No white gutter around the page content (reset still works).
 - Open browser DevTools → Rendering tab → "Emulate CSS media feature prefers-color-scheme" → set to "dark". Confirm the page background switches to near-black (`#121212`) and text becomes light — this proves the media-query dark override works, before any toggle UI exists. Set emulation back to "light" (or "No emulation") afterward.
 - In the DevTools console, run `getComputedStyle(document.body).fontFamily` — should include `"Montserrat"` in the value even though the font file itself isn't loaded yet (that's Task 2); the CSS property is already wired.
@@ -135,9 +138,11 @@ git commit -m "Add design token system with light/dark CSS custom properties"
 ### Task 2: Montserrat font + pre-hydration theme script
 
 **Files:**
+
 - Modify: `src/app.html`
 
 **Interfaces:**
+
 - Consumes: `tokens.css`'s dark-mode `:root[data-theme="dark"]` override (Task 1) — this task's script sets that attribute.
 - Produces: the `data-theme` attribute on `<html>`, stamped synchronously before first paint whenever `localStorage.getItem('theme')` is `'light'` or `'dark'`. Task 3's `ThemeToggle.svelte` writes to that same `localStorage` key (`'theme'`) and reads/sets the same `data-theme` attribute.
 
@@ -185,6 +190,7 @@ Expected: requests to `fonts.gstatic.com` for Montserrat succeed (status 200). I
 - [ ] **Step 3: Verify the pre-hydration script (no flash of wrong theme)**
 
 In the DevTools console:
+
 1. Run `localStorage.setItem('theme', 'dark')`, then reload the page. Immediately after reload (check as early as possible — e.g. via "View Page Source" showing the `<script>` runs before `%sveltekit.body%`, or by observing the page paints dark from the very first frame with no light-then-dark flash), confirm `document.documentElement.getAttribute('data-theme') === 'dark'` and the page is rendered in the dark palette from first paint.
 2. Run `localStorage.removeItem('theme')`, reload again. Confirm `document.documentElement.getAttribute('data-theme')` is `null`, and the page follows whatever `prefers-color-scheme` emulation is currently set (from Task 1's Step 3 check).
 
@@ -206,10 +212,12 @@ git commit -m "Load Montserrat font and add pre-hydration theme script"
 ### Task 3: `ThemeToggle` atom + wiring
 
 **Files:**
+
 - Create: `src/lib/components/atoms/ThemeToggle.svelte` (currently empty)
 - Modify: `src/routes/+layout.svelte`
 
 **Interfaces:**
+
 - Consumes: the `data-theme` attribute mechanism and `'theme'` `localStorage` key established in Task 2; `--color-bg`, `--color-text`, `--color-border` tokens from Task 1.
 - Produces: `ThemeToggle.svelte`, a self-contained component with no props, rendered as `<ThemeToggle />` from `+layout.svelte`.
 
@@ -308,11 +316,12 @@ Read the current `src/routes/+layout.svelte` first (from Task 1). Replace its co
 Run: `npm run dev`, open `http://localhost:5173/`.
 
 Check:
+
 - The toggle button appears fixed in the top-right corner, showing 🌙 (or ☀️, matching your OS's current light/dark setting).
 - Clicking it flips the entire page's background/text colors instantly and the icon changes.
 - Reload the page — the choice persists (page loads directly into the theme you last picked, no flash).
 - In DevTools console, run `localStorage.removeItem('theme')` and reload — the toggle now reflects your OS preference again (use the Rendering-tab emulation from Task 1 to check both directions).
-- `aria-label` on the button updates correctly to describe the *next* action (e.g. shows "Switch to dark mode" while currently light).
+- `aria-label` on the button updates correctly to describe the _next_ action (e.g. shows "Switch to dark mode" while currently light).
 
 - [ ] **Step 4: Run lint and type checks**
 
@@ -332,9 +341,11 @@ git commit -m "Add ThemeToggle atom for manual light/dark override"
 ### Task 4: Migrate `HeroSlideshow.svelte` to design tokens
 
 **Files:**
+
 - Modify: `src/lib/components/organisms/HeroSlideshow.svelte`
 
 **Interfaces:**
+
 - Consumes: `--color-surface-inverted`, `--color-text-inverted`, `--color-accent` tokens from Task 1's `tokens.css` (already globally available by this point).
 
 - [ ] **Step 1: Replace hardcoded colors with token references**
@@ -342,14 +353,14 @@ git commit -m "Add ThemeToggle atom for manual light/dark override"
 Read the current `src/lib/components/organisms/HeroSlideshow.svelte` first. Its `<style>` block currently ends with (verify this matches before editing):
 
 ```css
-	.hero-slideshow__stage {
-		position: relative;
-		width: 100%;
-		height: 90vh;
-		min-height: 480px;
-		overflow: hidden;
-		background: #1a1a1a;
-	}
+.hero-slideshow__stage {
+	position: relative;
+	width: 100%;
+	height: 90vh;
+	min-height: 480px;
+	overflow: hidden;
+	background: #1a1a1a;
+}
 ```
 
 Replace the entire `<style>` block (everything between `<style>` and `</style>`) with:
@@ -484,6 +495,7 @@ Do not change the `<script>` block or the markup (everything above `<style>`) �
 Run: `npm run dev`, open `http://localhost:5173/`.
 
 Check:
+
 - The hero slideshow still renders correctly: dark stage background, light arrow/indicator text, caption band with light text and an accent-colored eyebrow line.
 - Toggle light/dark mode (via the `ThemeToggle` button from Task 3). The hero's own colors should NOT change between themes (they use the brand-constant `--color-surface-inverted`/`--color-text-inverted`/`--color-accent` tokens) — only the rest of the page (currently just the toggle button itself, since no other content exists yet) should flip.
 
