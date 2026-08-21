@@ -66,13 +66,24 @@ Owns all state and behavior:
 
 Presentational only — no internal state, no timers:
 
-- Props: `src`, `alt`, `active` (boolean), `activationKey` (number).
-- Renders one absolutely-positioned, full-bleed `<img>` (`object-fit: cover`).
-- `opacity` transitions via CSS based on `active` (crossfade, ~1.2s).
+- Props: `src`, `alt`, `active` (boolean).
+- Renders a persistent wrapper `<div>` (opacity/crossfade) around a persistent
+  full-bleed `<img>` (`object-fit: cover`) — neither element is ever
+  destroyed/remounted, since a freshly-mounted element has no prior computed
+  style to transition from and would defeat the opacity crossfade.
+- `opacity` transitions via CSS on the wrapper based on `active` (crossfade,
+  ~1.2s).
 - The Ken Burns zoom is a CSS keyframe animation
-  (`scale(1.15) → scale(1)`, ~5s, `ease-out`) applied to the image. It's
-  wrapped in `{#key activationKey}` so remounting on each activation restarts
-  the keyframe animation from the beginning — no manual reflow hacks.
+  (`scale(1.15) → scale(1)`, ~5s, `ease-out`) scoped to the image via a
+  `.slideshow-slide--active .slideshow-slide__image` descendant selector.
+  Adding `animation-name` to an element via a class toggle starts that
+  animation fresh from its `from` keyframe every time — so the zoom restarts
+  on activation without any element remount, and reverts cleanly to
+  `scale(1)` on deactivation (the animation completes and holds via
+  `forwards` well before the class is removed, since the zoom duration
+  matches the slide's dwell time).
+- `aria-hidden={!active}` on the wrapper keeps inactive slides out of the
+  accessibility tree, so only the visible slide is announced.
 
 ## Animation & timing details
 
@@ -94,9 +105,13 @@ Presentational only — no internal state, no timers:
 - **Numbered indicator** (`01 02 03 04 05`): bottom-right over the image area,
   matching the screenshot. Each number is a clickable button that jumps
   straight to that slide and resets the timer.
-- **Pause on hover**: hovering anywhere over the slideshow sets `paused =
-  true`; leaving resumes autoplay. Keyboard focus on any control within the
-  slideshow behaves the same as hover (pauses autoplay while focused).
+- **Pause on hover**: hovering anywhere over the slideshow pauses autoplay;
+  leaving resumes it. Keyboard focus on any control within the slideshow
+  behaves the same as hover (pauses autoplay while focused). Hover and focus
+  are tracked as two independent `$state` booleans (`hovered`/`focusWithin`),
+  with autoplay's `paused` flag `$derived` as their logical OR — so if the
+  slideshow is paused by one and the other is also active, releasing just one
+  doesn't wrongly resume autoplay while the other still holds.
 
 ## Caption band
 
@@ -107,7 +122,11 @@ it's plain markup in `HeroSlideshow.svelte`, not data-driven.
 
 ## Styling & responsiveness
 
-- Image area: full-bleed, roughly full-viewport-height on desktop.
+- Image area: full-bleed, roughly full-viewport-height on desktop. Achieving
+  true full-bleed required a minimal global reset (`margin: 0` on `html`/
+  `body`) added to `src/routes/+layout.svelte` via `:global()` — the project
+  had no global stylesheet before this feature, and without the reset the
+  browser's default body margin left a visible gutter.
 - Flexbox + relative units throughout; arrows and indicator scale down and the
   caption band stacks normally on narrow viewports.
 - No pixel-perfect matching to the 3440px screenshot.
