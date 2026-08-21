@@ -13,7 +13,9 @@
 
 	let currentIndex = $state(0);
 	let activationCounter = $state(0);
-	let paused = $state(false);
+	let hovered = $state(false);
+	let focusWithin = $state(false);
+	let paused = $derived(hovered || focusWithin);
 
 	function goTo(rawIndex: number) {
 		const newIndex = ((rawIndex % slides.length) + slides.length) % slides.length;
@@ -34,7 +36,7 @@
 		const container = event.currentTarget as HTMLElement;
 		const nextFocused = event.relatedTarget as Node | null;
 		if (!nextFocused || !container.contains(nextFocused)) {
-			paused = false;
+			focusWithin = false;
 		}
 	}
 
@@ -51,9 +53,9 @@
 <section
 	class="hero-slideshow"
 	aria-label="Hero slideshow"
-	onmouseenter={() => (paused = true)}
-	onmouseleave={() => (paused = false)}
-	onfocusin={() => (paused = true)}
+	onmouseenter={() => (hovered = true)}
+	onmouseleave={() => (hovered = false)}
+	onfocusin={() => (focusWithin = true)}
 	onfocusout={handleFocusOut}
 >
 	<div class="hero-slideshow__stage">
