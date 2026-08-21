@@ -69,6 +69,7 @@ Two token groups:
    - `--color-accent-hover`: `#bc8a53`
 
 Typography tokens:
+
 - `--font-heading`: `'Montserrat', sans-serif`, weight `700`
 - `--font-body`: `'Montserrat', sans-serif`, weight `400`
 
@@ -145,6 +146,7 @@ Global stylesheet, imported once from `+layout.svelte`. Contains:
 ### `src/lib/components/organisms/HeroSlideshow.svelte`
 
 Hardcoded colors replaced with token references:
+
 - `#f5efe6` (light text on dark bands) → `var(--color-text-inverted)`
 - `#c98a4b` (eyebrow accent) → `var(--color-accent)`
 - `#0d0d0d` (caption band background) → `var(--color-surface-inverted)`

@@ -36,8 +36,10 @@
 	class="theme-toggle"
 	onclick={toggle}
 	aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+	aria-pressed={isDark}
 >
-	{isDark ? '☀️' : '🌙'}
+	<span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">☀️</span>
+	<span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">🌙</span>
 </button>
 
 <style>
@@ -57,5 +59,35 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.theme-toggle__icon {
+		display: none;
+	}
+
+	.theme-toggle__icon--moon {
+		display: block;
+	}
+
+	:global(html:not([data-theme='light'])) .theme-toggle__icon--sun {
+		display: none;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(html:not([data-theme='light'])) .theme-toggle__icon--sun {
+			display: block;
+		}
+
+		:global(html:not([data-theme='light'])) .theme-toggle__icon--moon {
+			display: none;
+		}
+	}
+
+	:global(html[data-theme='dark']) .theme-toggle__icon--sun {
+		display: block;
+	}
+
+	:global(html[data-theme='dark']) .theme-toggle__icon--moon {
+		display: none;
 	}
 </style>

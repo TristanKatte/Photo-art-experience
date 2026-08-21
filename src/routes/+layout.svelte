@@ -1,5 +1,7 @@
 <script lang="ts">
 	import '$lib/styles/tokens.css';
+	import '@fontsource/montserrat/400.css';
+	import '@fontsource/montserrat/700.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import ThemeToggle from '$lib/components/atoms/ThemeToggle.svelte';
 

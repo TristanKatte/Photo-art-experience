@@ -1,4 +1,5 @@
 :root {
+	color-scheme: light;
 	--color-bg: #ffffff;
 	--color-text: #161616;
 	--color-border: #e2e2e2;
@@ -8,6 +9,7 @@
 
 	--color-accent: #c48f56;
 	--color-accent-hover: #bc8a53;
+	--color-accent-on-light: #8a6135;
 
 	--font-heading: 'Montserrat', sans-serif;
 	--font-heading-weight: 700;
@@ -17,6 +19,7 @@
 
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme='light']) {
+		color-scheme: dark;
 		--color-bg: #121212;
 		--color-text: #ededed;
 		--color-border: #333333;
@@ -24,9 +27,14 @@
 }
 
 :root[data-theme='dark'] {
+	color-scheme: dark;
 	--color-bg: #121212;
 	--color-text: #ededed;
 	--color-border: #333333;
+}
+
+:root[data-theme='light'] {
+	color-scheme: light;
 }
 
 html,

@@ -156,6 +156,7 @@
 	.hero-slideshow__indicator {
 		background: transparent;
 		border: none;
+		color: rgba(245, 245, 245, 0.6); /* fallback for browsers without color-mix() */
 		color: color-mix(in srgb, var(--color-text-inverted) 60%, transparent);
 		font-size: 0.85rem;
 		letter-spacing: 0.05em;
@@ -175,6 +176,7 @@
 		display: block;
 		width: 2rem;
 		height: 2px;
+		background: rgba(245, 245, 245, 0.3); /* fallback for browsers without color-mix() */
 		background: color-mix(in srgb, var(--color-text-inverted) 30%, transparent);
 	}
 
@@ -210,7 +212,8 @@
 	.hero-slideshow__title {
 		margin: 0;
 		font-size: 2rem;
-		font-weight: 600;
+		font-family: var(--font-heading);
+		font-weight: var(--font-heading-weight);
 	}
 
 	@media (max-width: 640px) {
