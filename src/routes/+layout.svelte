@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '$lib/styles/tokens.css';
 	import favicon from '$lib/assets/favicon.svg';
 
 	let { children } = $props();
@@ -9,10 +10,3 @@
 </svelte:head>
 
 {@render children()}
-
-<style>
-	:global(html, body) {
-		margin: 0;
-		padding: 0;
-	}
-</style>
