@@ -2,20 +2,16 @@
 	let {
 		src,
 		alt,
-		active,
-		activationKey
+		active
 	}: {
 		src: string;
 		alt: string;
 		active: boolean;
-		activationKey: number;
 	} = $props();
 </script>
 
 <div class="slideshow-slide" class:slideshow-slide--active={active} aria-hidden={!active}>
-	{#key activationKey}
-		<img {src} {alt} class="slideshow-slide__image" />
-	{/key}
+	<img {src} {alt} class="slideshow-slide__image" />
 </div>
 
 <style>
@@ -37,6 +33,9 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+
+	.slideshow-slide--active .slideshow-slide__image {
 		animation: slideshow-slide-zoom 5s ease-out forwards;
 	}
 

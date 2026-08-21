@@ -60,12 +60,7 @@
 >
 	<div class="hero-slideshow__stage">
 		{#each slides as slide, i (slide.src)}
-			<SlideshowSlide
-				src={slide.src}
-				alt={slide.alt}
-				active={i === currentIndex}
-				activationKey={activationCounter}
-			/>
+			<SlideshowSlide src={slide.src} alt={slide.alt} active={i === currentIndex} />
 		{/each}
 
 		<button
