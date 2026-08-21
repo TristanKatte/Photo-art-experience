@@ -50,6 +50,7 @@
 
 <section
 	class="hero-slideshow"
+	aria-label="Hero slideshow"
 	onmouseenter={() => (paused = true)}
 	onmouseleave={() => (paused = false)}
 	onfocusin={() => (paused = true)}
