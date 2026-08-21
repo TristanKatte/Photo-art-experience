@@ -119,7 +119,7 @@
 		height: 90vh;
 		min-height: 480px;
 		overflow: hidden;
-		background: #1a1a1a;
+		background: var(--color-surface-inverted);
 	}
 
 	.hero-slideshow__arrow {
@@ -129,7 +129,7 @@
 		z-index: 3;
 		background: transparent;
 		border: none;
-		color: #f5efe6;
+		color: var(--color-text-inverted);
 		font-size: 3rem;
 		line-height: 1;
 		padding: 0.5rem 1rem;
@@ -156,7 +156,7 @@
 	.hero-slideshow__indicator {
 		background: transparent;
 		border: none;
-		color: rgba(245, 239, 230, 0.6);
+		color: color-mix(in srgb, var(--color-text-inverted) 60%, transparent);
 		font-size: 0.85rem;
 		letter-spacing: 0.05em;
 		cursor: pointer;
@@ -168,18 +168,18 @@
 	}
 
 	.hero-slideshow__indicator--active {
-		color: #f5efe6;
+		color: var(--color-text-inverted);
 	}
 
 	.hero-slideshow__indicator-progress {
 		display: block;
 		width: 2rem;
 		height: 2px;
-		background: rgba(245, 239, 230, 0.3);
+		background: color-mix(in srgb, var(--color-text-inverted) 30%, transparent);
 	}
 
 	.hero-slideshow__indicator-progress--active {
-		background: #f5efe6;
+		background: var(--color-text-inverted);
 		animation: hero-slideshow-progress 5000ms linear forwards;
 		transform-origin: left;
 	}
@@ -194,14 +194,14 @@
 	}
 
 	.hero-slideshow__caption {
-		background: #0d0d0d;
-		color: #f5efe6;
+		background: var(--color-surface-inverted);
+		color: var(--color-text-inverted);
 		padding: 2rem 3rem;
 	}
 
 	.hero-slideshow__eyebrow {
 		margin: 0 0 0.5rem;
-		color: #c98a4b;
+		color: var(--color-accent);
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		font-size: 0.85rem;
