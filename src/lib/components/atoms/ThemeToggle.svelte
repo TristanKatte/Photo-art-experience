@@ -44,21 +44,18 @@
 
 <style>
 	.theme-toggle {
-		position: fixed;
-		top: 1rem;
-		right: 1rem;
-		z-index: 1000;
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 2.25rem;
+		height: 2.25rem;
 		border-radius: 50%;
-		border: 1px solid var(--color-border);
-		background: var(--color-bg);
-		color: var(--color-text);
-		font-size: 1.1rem;
+		border: 1px solid currentColor;
+		background: transparent;
+		color: inherit;
+		font-size: 1rem;
 		cursor: pointer;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		flex-shrink: 0;
 	}
 
 	.theme-toggle__icon {
